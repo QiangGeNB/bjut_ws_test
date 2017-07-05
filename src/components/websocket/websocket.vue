@@ -1,17 +1,17 @@
 <template>
 <div class="background-wrapper">
 	<div class="content-wrapper">
-		<div class="ip-wrapper">
-			ip地址（当前默认127.0.0.1）<input type="text" name="addr_id">
+		<div class="action-wrapper">
+			发送动作<input type="text" id="action">
 		</div>
-		<div class="port-wrapper">
-			端口号（当前默认8081）<input type="text" name="port_id">
+		<div class="activity-id-wrapper">
+			活动id<input type="text" id="activity_id">
 		</div>
-		<div class="info-wrapper">
-			本机编号(连接的时候需要填写)<input type="text" id="sender_id">
+		<div class="activity-title-wrapper">
+			活动标题<input type="text" id="activity_title">
 		</div>
-		<div class="target-wrapper">
-			发送目标<input type="text" id="target_id">
+		<div class="verify-wrapper">
+			审核<input type="text" id="verify">
 		</div>
 		<div class="send-content">
 			<div>发送内容</div><textarea id="send-content-id"></textarea>
@@ -43,8 +43,9 @@ export default {
   			},{
   				msg:"2"
   			}],
-			sender: "",
-			target: "",
+			action: "",
+			activity_title: "",
+			verify: "",
 			content: "",
 			send_content: ""
 		}
@@ -72,19 +73,19 @@ export default {
 			}
 		},
 		send() {
-			let send_content = document.getElementById("send-content-id");
-			this.content = send_content.value;
-			//console.log(this.content);
+			let action_content = document.getElementById("action");
+			this.action = action_content.value;
 
-			let sender_name = document.getElementById("sender_id");
-			this.sender = sender_name.value;
-			//console.log(this.sender);
+			let verify_result = document.getElementById("verify");
+			this.verify = verify_result.value;
 
-			let target_name = document.getElementById("target_id");
-			this.target = target_name.value;
-			//console.log(this.target);
+			let activity_id_content = document.getElementById("activity_id");
+			this.activity_id = activity_id_content.value;
 
-			this.send_content = {sender:this.sender,target:this.target,content:this.content};
+			let activity_title_content = document.getElementById("activity_title");
+			this.activity_title = activity_title_content.value;
+
+			this.send_content = {action:this.action,data:{verify:this.verify,activityID:this.activity_id,activityTitle:this.activity_title}};
 			this.send_content = JSON.stringify(this.send_content);
 
 			console.log(this.send_content);
