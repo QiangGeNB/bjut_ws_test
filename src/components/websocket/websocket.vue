@@ -1,6 +1,6 @@
 <template>
 <div class="background-wrapper">
-	<div class="content-wrapper">
+	<div class="websocket-content-wrapper">
 		<div class="action-wrapper">
 			发送动作<input type="text" id="action">
 		</div>
@@ -28,6 +28,18 @@
 		</div>
 		<button @click="connect">连接</button>
 		<button @click="send">发送</button>
+	</div>
+	<div class="api-content-wrapper">
+		<div class="http-wrapper">
+			http方法<input type="text" id="http_id">
+		</div>
+		<div class="url-wrapper">
+			api-url<input type="text" id="url_id">
+		</div>
+		<div class="params-wrapper">
+			params-data<textarea id="params_id"></textarea>
+		</div>
+		<button @click="api_connect">提交</button>
 	</div>
 </div>
 </template>
@@ -91,6 +103,30 @@ export default {
 			console.log(this.send_content);
 
 			this.ws_server.send(this.send_content);
+		},
+		api_connect() {
+			let http_temp = document.getElementById("http_id");
+			let http_choose = http_temp.value;
+
+			let url_temp = document.getElementById("url_id");
+			let apiurl = url_temp.value;
+
+			let params_temp = document.getElementById("params_id");
+			let params_data = params_temp.value;
+			params_data = JSON.parse(params_data);
+			console.log(params_data);
+
+			if(http_choose == "get") {
+				this.$http.get(apiurl,{params:params_data}).then((response) => {
+					console.log(response);
+					response = response.bodyText;
+					response = JSON.parse(response);
+					console.log(response);
+				});
+			}
+			else {
+				console.log("http方法输入错误");
+			}
 		}
 	}
 };
